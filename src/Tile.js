@@ -22,17 +22,26 @@ class Tile extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            // location: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+            // tilePositions: this.props.tilePositions,
             type: '',
-            //img??,
             win: ''
         }
+        this.moveTile = this.moveTile.bind(this)
+    }
+
+    moveTile(e) {
+        e.preventDefault();
+        console.log("click worked")
+        console.log(e.target.currentPosition)
+        this.setState({
+            tilePositions: this.props.tilePositions
+        })
     }
 
     render() {
         return (
-            <div id="tile" className="col-md-3 border">
-                <div className="text-center">{this.props.location}</div>
+            <div onClick={this.moveTile} id="tile" className="col-md-3 border">
+                <div className="text-center">{this.props.currentPosition}</div>
             </div>
         )
     }

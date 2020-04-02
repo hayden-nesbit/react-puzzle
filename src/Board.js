@@ -10,12 +10,34 @@ class Board extends React.Component {
         }
     }
 
-    render() {
-
-    let tileNumber = []
-    for (let i = 0; i < 16; i++ ) {
-        tileNumber.push(i)
+    componentDidUpdate() {
+        window.localStorage.setItem('tilePositions', JSON.stringify(this.state.tilePositions))
     }
+
+    componentDidMount() {
+        if (window.localStorage.tilePositions) {
+            let tilePositions = JSON.parse(window.localStorage.tilePositions)
+            this.setState({
+                tilePositions: tilePositions,
+            })
+        } else {
+            this.generateTilePositions()
+        }
+    }
+
+    generateTilePositions(){
+        let tilePositions = []
+        for (let i = 0; i < 16; i++) {
+            tilePositions.push(i)
+        }
+        this.setState({
+            tilePositions: tilePositions
+        })
+    }
+
+   
+
+    render() {
 
         return (
             <div>
@@ -27,10 +49,11 @@ class Board extends React.Component {
                 <div className="row mt-5">
                     <div className="col-md-6 offset-3 col-sm-12">
                         <div className="row">
-                            {tileNumber.map(item => (
+                            {this.state.tilePositions.map(item => (
                                 <Tile
                                     key={item}
-                                    location={item}
+                                    currentPosition={item}
+                                    winPosition={item}
                                 />
                             ))}
                         </div>
