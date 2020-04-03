@@ -8,6 +8,8 @@ class Board extends React.Component {
         this.state = {
             tilePositions: [],
         }
+        this.update = this.update.bind(this)
+
     }
 
     componentDidUpdate() {
@@ -25,7 +27,7 @@ class Board extends React.Component {
         }
     }
 
-    generateTilePositions(){
+    generateTilePositions() {
         let tilePositions = []
         for (let i = 0; i < 16; i++) {
             tilePositions.push(i)
@@ -35,7 +37,9 @@ class Board extends React.Component {
         })
     }
 
-   
+   update() {
+        console.log("in the update click")
+    }
 
     render() {
 
@@ -54,13 +58,11 @@ class Board extends React.Component {
                                     key={item}
                                     currentPosition={item}
                                     winPosition={item}
+                                    onChangeFunction={this.update}
                                 />
                             ))}
                         </div>
-
-
                     </div>
-
                 </div>
             </div>
         )

@@ -8,7 +8,6 @@ function App() {
   return (
     <div className="container mt-3 mb-5">
       <div className="App">
-      
         <Board />
       </div>
     </div>

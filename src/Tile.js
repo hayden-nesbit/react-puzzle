@@ -24,27 +24,40 @@ class Tile extends React.Component {
         this.state = {
             // tilePositions: this.props.tilePositions,
             type: '',
-            win: ''
+            position: -1
+            // win: this.props.tilePositions
         }
         this.moveTile = this.moveTile.bind(this)
+    }
+
+    componentDidMount(){
+        this.setState({
+            position: this.props.currentPosition
+        })
     }
 
     moveTile(e) {
         e.preventDefault();
         console.log("click worked")
-        console.log(e.target.currentPosition)
-        this.setState({
-            tilePositions: this.props.tilePositions
-        })
+        this.props.onChangeFunction()
+
+        //now.. if a tile is clicked, set currentPosition to another tiles currentPosition
+
+        if (this.state.position === 0) {
+            this.setState({
+                position: 1
+            })
+        }
     }
 
     render() {
         return (
             <div onClick={this.moveTile} id="tile" className="col-md-3 border">
-                <div className="text-center">{this.props.currentPosition}</div>
+                <div className="text-center">{this.state.position}</div>
             </div>
         )
     }
+
 }
 
-export default Tile
+    export default Tile
