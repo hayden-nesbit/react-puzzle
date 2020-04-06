@@ -37,39 +37,46 @@ class Board extends React.Component {
     }
 
     showMove(currentClicked) {
-        console.log(this.state.tilePositions[currentClicked - 1].type)
+        // console.log(this.state.tilePositions[currentClicked - 1].type)
+
+        //change to "isAllowed = true/false"
+        //run through 4 if statements, if one hits, switch to TRUE
+        //then have code to do switch written once
        
-        if (this.state.tilePositions[currentClicked - 1].type === "blank") {
-            this.state.tilePositions[currentClicked - 1].type = this.state.tilePositions[currentClicked].type;
-            this.state.tilePositions[currentClicked].type = "blank";
-            let temp1 = this.state.tilePositions[currentClicked].currentPosition
-            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked - 1].currentPosition;
-            this.state.tilePositions[currentClicked - 1].currentPosition = temp1;
+        let tempPositions = this.state.tilePositions
+        let tempObj = this.state.tilePositions[currentClicked]
 
-        } else if (this.state.tilePositions[currentClicked + 1].type === "blank") {
-            this.state.tilePositions[currentClicked + 1].type = this.state.tilePositions[currentClicked].type
-            this.state.tilePositions[currentClicked].type = "blank";
-            let temp2 = this.state.tilePositions[currentClicked].currentPosition
-            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked + 1].currentPosition;
-            this.state.tilePositions[currentClicked + 1].currentPosition = temp2;
+        let newPosition = -1
 
-        } else if (this.state.tilePositions[currentClicked + 4].type === "blank") {
-            this.state.tilePositions[currentClicked + 4].type = this.state.tilePositions[currentClicked].type
-            this.state.tilePositions[currentClicked].type = "blank";
-            let temp3 = this.state.tilePositions[currentClicked].currentPosition
-            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked + 4].currentPosition;
-            this.state.tilePositions[currentClicked + 4].currentPosition = temp3;
+        if (tempPositions[currentClicked - 1].type === "blank") {
+            newPosition = currentClicked - 1
+    
 
-        } else if (this.state.tilePositions[currentClicked - 4].type === "blank") {
-            this.state.tilePositions[currentClicked - 4].type = this.state.tilePositions[currentClicked].type
-            this.state.tilePositions[currentClicked].type = "blank";
-            let temp4 = this.state.tilePositions[currentClicked].currentPosition
-            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked - 4].currentPosition;
-            this.state.tilePositions[currentClicked - 4].currentPosition = temp4;
+        } else if (tempPositions[currentClicked + 1].type === "blank") {
+            newPosition = currentClicked + 1
+
+        } else if (tempPositions[currentClicked + 4].type === "blank") {
+            newPosition = currentClicked + 4
+
+
+        } else if (tempPositions[currentClicked - 4].type === "blank") {
+            newPosition = currentClicked - 4
+
         }
-        this.setState({
-            tilePositions: this.state.tilePositions
-        })
+        
+        if (!(newPosition === -1)) {
+            tempPositions[newPosition].type = "regular";
+            tempPositions[currentClicked].type = "blank";
+            let temp = tempObj.currentPosition
+            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[newPosition].currentPosition;
+            this.state.tilePositions[newPosition].currentPosition = temp;
+            
+            this.setState({
+                tilePositions: tempPositions
+            })
+        }
+        
+            
     }
 
     randomizeBoard() {
@@ -94,11 +101,12 @@ class Board extends React.Component {
                             {this.state.tilePositions.map((item, index) => (
                                 <Tile
                                     key={index}
-                                    currentPosition={item.currentPosition}
-                                    winPosition={item.winPosition}
+                                    tempObj={item}
+                                    // currentPosition={item.currentPosition}
+                                    // winPosition={item.winPosition}
+                                    // type={item.type}
+                                    // id={item.type}
                                     showMove={this.showMove}
-                                    type={item.type}
-                                    id={item.type}
                                 />
                             ))}
                         </div>

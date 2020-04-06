@@ -13,8 +13,8 @@ class Tile extends React.Component {
 
     componentDidMount(){
         this.setState({
-            position: this.props.currentPosition,
-            type: this.props.type
+            position: this.props.tempObj.currentPosition,
+            type: this.props.tempObj.type
         })
     }
 
@@ -25,14 +25,14 @@ class Tile extends React.Component {
     switchTile(e) {
         e.preventDefault();
         console.log("click worked")
-        this.props.showMove(this.props.currentPosition)
+        this.props.showMove(this.state.position)
     }
 
     render() {
 
         return (
-            <div onClick={this.switchTile}  id={this.props.type} className="col-md-3 border">
-                <div id="tile" className="text-center">{this.props.currentPosition}</div>
+            <div onClick={this.switchTile}  id={this.props.tempObj.type} className="col-md-3 border">
+                <div id="tile" className="text-center">{this.props.tempObj.currentPosition}</div>
             </div>
         )
     }
