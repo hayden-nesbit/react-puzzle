@@ -8,41 +8,47 @@ class Board extends React.Component {
         this.state = {
             tilePositions: [],
         }
-        this.update = this.update.bind(this)
+        this.showMove = this.showMove.bind(this)
 
     }
 
     componentDidUpdate() {
-        window.localStorage.setItem('tilePositions', JSON.stringify(this.state.tilePositions))
+        // window.localStorage.setItem('tilePositions', JSON.stringify(this.state.tilePositions))
     }
 
     componentDidMount() {
-        if (window.localStorage.tilePositions) {
-            let tilePositions = JSON.parse(window.localStorage.tilePositions)
-            this.setState({
-                tilePositions: tilePositions,
-            })
-        } else {
-            this.generateTilePositions()
-        }
+        // if (window.localStorage.tilePositions) {
+        //     let tilePositions = JSON.parse(window.localStorage.tilePositions)
+        //     this.setState({
+        //         tilePositions: tilePositions,
+        //     })
+        // } else {
+        // }
+        this.generateTilePositions()
     }
 
     generateTilePositions() {
         let tilePositions = []
+
         for (let i = 0; i < 16; i++) {
-            tilePositions.push(i)
+            let obj = { currentPosition: i,
+                        winPosition: i,
+                        type: i == 0 ? "blank" : "regular"}
+            tilePositions.push(obj)
         }
         this.setState({
-            tilePositions: tilePositions
+            tilePositions: tilePositions,
         })
     }
 
-   update() {
-        console.log("in the update click")
+    showMove() {
+        //console.log("in the update click")
+        //if my neighbor is blank, run switchTile with it
+        //else nothing
+        // if ()
     }
 
     render() {
-
         return (
             <div>
                 <div className="row">
@@ -53,13 +59,14 @@ class Board extends React.Component {
                 <div className="row mt-5">
                     <div className="col-md-6 offset-3 col-sm-12">
                         <div className="row">
-                            {this.state.tilePositions.map(item => (
-                                <Tile
-                                    key={item}
-                                    currentPosition={item}
-                                    winPosition={item}
-                                    onChangeFunction={this.update}
-                                />
+                            {this.state.tilePositions.map((item, index) => (
+                            <Tile
+                                key={index}
+                                currentPosition={item.currentPosition}
+                                winPosition={item.winPosition}
+                                showMove={this.showMove}
+                                type={item.type}
+                            />
                             ))}
                         </div>
                     </div>
