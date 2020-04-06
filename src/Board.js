@@ -17,13 +17,6 @@ class Board extends React.Component {
     }
 
     componentDidMount() {
-        // if (window.localStorage.tilePositions) {
-        //     let tilePositions = JSON.parse(window.localStorage.tilePositions)
-        //     this.setState({
-        //         tilePositions: tilePositions,
-        //     })
-        // } else {
-        // }
         this.generateTilePositions()
     }
 
@@ -33,7 +26,7 @@ class Board extends React.Component {
         for (let i = 0; i < 16; i++) {
             let obj = { currentPosition: i,
                         winPosition: i,
-                        type: i == 0 ? "blank" : "regular"}
+                        type: i === 0 ? "blank" : "regular"}
             tilePositions.push(obj)
         }
         this.setState({
@@ -41,11 +34,25 @@ class Board extends React.Component {
         })
     }
 
-    showMove() {
-        //console.log("in the update click")
+    showMove(currentClicked) {
+        // console.log("in the update click")
         //if my neighbor is blank, run switchTile with it
+            // currentPosition +1
+            // currentPosition -1
+            // currentPosition +4
+            // currentPosition -4
         //else nothing
-        // if ()
+        console.log(currentClicked)
+        console.log(this.state.tilePositions[currentClicked+1])
+
+    }
+
+    randomizeBoard() {
+
+    }
+
+    checkWin() {
+
     }
 
     render() {
@@ -75,7 +82,6 @@ class Board extends React.Component {
         )
     }
 }
-
 
 export default Board
 
