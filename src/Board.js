@@ -26,7 +26,8 @@ class Board extends React.Component {
         for (let i = 0; i < 16; i++) {
             let obj = { currentPosition: i,
                         winPosition: i,
-                        type: i === 0 ? "blank" : "regular"}
+                        type: i === 0 ? "blank" : "regular",
+                    }
             tilePositions.push(obj)
         }
         this.setState({
@@ -35,6 +36,8 @@ class Board extends React.Component {
     }
 
     showMove(currentClicked) {
+        // console.log(currentClicked)
+        console.log(this.state.tilePositions[currentClicked-1].type)
         // console.log("in the update click")
         //if my neighbor is blank, run switchTile with it
             // currentPosition +1
@@ -42,8 +45,23 @@ class Board extends React.Component {
             // currentPosition +4
             // currentPosition -4
         //else nothing
-        console.log(currentClicked)
-        console.log(this.state.tilePositions[currentClicked+1])
+
+        if(this.state.tilePositions[currentClicked-1].type === "blank") {
+            this.state.tilePositions[currentClicked].type = this.state.tilePositions[currentClicked-1].type;
+            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked-1].currentPosition
+        } else if (this.state.tilePositions[currentClicked+1].type === "blank") {
+            this.state.tilePositions[currentClicked].type = this.state.tilePositions[currentClicked+1].type;
+            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked+1].currentPosition
+        } else if (this.state.tilePositions[currentClicked+4].type === "blank") {
+            this.state.tilePositions[currentClicked].type = this.state.tilePositions[currentClicked+4].type;
+            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked+4].currentPosition
+        } else if (this.state.tilePositions[currentClicked-4].type === "blank") {
+            this.state.tilePositions[currentClicked].type = this.state.tilePositions[currentClicked-4].type;
+            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked-4].currentPosition
+        } 
+        this.setState({
+            tilePositions: this.state.tilePositions
+        })
 
     }
 
@@ -52,7 +70,7 @@ class Board extends React.Component {
     }
 
     checkWin() {
-
+    //
     }
 
     render() {
@@ -73,6 +91,7 @@ class Board extends React.Component {
                                 winPosition={item.winPosition}
                                 showMove={this.showMove}
                                 type={item.type}
+                                id={item.type}
                             />
                             ))}
                         </div>

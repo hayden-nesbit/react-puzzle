@@ -1,3 +1,7 @@
 #tile {
-    min-height: 119.5px;
+    min-height: 90px;
+}
+
+#blank {
+    background-color: black;
 }
