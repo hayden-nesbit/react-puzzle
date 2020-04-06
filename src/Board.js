@@ -1,6 +1,7 @@
 import React from 'react'
 import Tile from './Tile'
 import Upload from './Upload'
+import Buttons from './Buttons'
 
 class Board extends React.Component {
     constructor(props) {
@@ -9,6 +10,8 @@ class Board extends React.Component {
             tilePositions: [],
         }
         this.showMove = this.showMove.bind(this)
+        this.generateTilePositions = this.generateTilePositions.bind(this)
+        this.randomizeBoard = this.randomizeBoard.bind(this)
 
     }
 
@@ -37,27 +40,20 @@ class Board extends React.Component {
     }
 
     showMove(currentClicked) {
-        // console.log(this.state.tilePositions[currentClicked - 1].type)
-
-        //change to "isAllowed = true/false"
-        //run through 4 if statements, if one hits, switch to TRUE
-        //then have code to do switch written once
        
         let tempPositions = this.state.tilePositions
         let tempObj = this.state.tilePositions[currentClicked]
 
         let newPosition = -1
 
-        if (tempPositions[currentClicked - 1].type === "blank") {
+        if (tempPositions[currentClicked - 1].type === "blank" ) {
             newPosition = currentClicked - 1
-    
 
-        } else if (tempPositions[currentClicked + 1].type === "blank") {
+        } else if (tempPositions[currentClicked + 1].type === "blank" && (!(tempPositions[currentClicked + 1] % 4 === 0))) {
             newPosition = currentClicked + 1
 
         } else if (tempPositions[currentClicked + 4].type === "blank") {
             newPosition = currentClicked + 4
-
 
         } else if (tempPositions[currentClicked - 4].type === "blank") {
             newPosition = currentClicked - 4
@@ -68,19 +64,26 @@ class Board extends React.Component {
             tempPositions[newPosition].type = "regular";
             tempPositions[currentClicked].type = "blank";
             let temp = tempObj.currentPosition
-            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[newPosition].currentPosition;
-            this.state.tilePositions[newPosition].currentPosition = temp;
+            tempPositions[currentClicked].currentPosition = tempPositions[newPosition].currentPosition;
+            tempPositions[newPosition].currentPosition = temp;
             
             this.setState({
                 tilePositions: tempPositions
             })
-        }
-        
-            
+        } 
     }
 
-    randomizeBoard() {
+    randomizeBoard(e) {
+        //set a function to take an array and randomize it's indexes
+        //sort it randomly
+        e.preventDefault()
+        console.log("here")
+        let tempPositions = this.state.tilePositions
+        tempPositions.sort(() => Math.random() - 0.5)
 
+        this.setState({
+            tilePositions: tempPositions
+        })
     }
 
     checkWin() {
@@ -96,22 +99,21 @@ class Board extends React.Component {
                     </div>
                 </div>
                 <div className="row mt-5">
-                    <div className="col-md-6 offset-3 col-sm-12">
+                    <div className="col-md-6 offset-3 col-6">
                         <div className="row">
                             {this.state.tilePositions.map((item, index) => (
                                 <Tile
                                     key={index}
                                     tempObj={item}
-                                    // currentPosition={item.currentPosition}
-                                    // winPosition={item.winPosition}
-                                    // type={item.type}
-                                    // id={item.type}
                                     showMove={this.showMove}
                                 />
                             ))}
                         </div>
                     </div>
                 </div>
+                <Buttons 
+                    scramble={this.randomizeBoard}
+                />
             </div>
         )
     }
