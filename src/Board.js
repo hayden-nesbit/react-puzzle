@@ -24,10 +24,11 @@ class Board extends React.Component {
         let tilePositions = []
 
         for (let i = 0; i < 16; i++) {
-            let obj = { currentPosition: i,
-                        winPosition: i,
-                        type: i === 0 ? "blank" : "regular",
-                    }
+            let obj = {
+                currentPosition: i,
+                winPosition: i,
+                type: i === 0 ? "blank" : "regular",
+            }
             tilePositions.push(obj)
         }
         this.setState({
@@ -36,33 +37,39 @@ class Board extends React.Component {
     }
 
     showMove(currentClicked) {
-        // console.log(currentClicked)
-        console.log(this.state.tilePositions[currentClicked-1].type)
-        // console.log("in the update click")
-        //if my neighbor is blank, run switchTile with it
-            // currentPosition +1
-            // currentPosition -1
-            // currentPosition +4
-            // currentPosition -4
-        //else nothing
+        console.log(this.state.tilePositions[currentClicked - 1].type)
+       
+        if (this.state.tilePositions[currentClicked - 1].type === "blank") {
+            this.state.tilePositions[currentClicked - 1].type = this.state.tilePositions[currentClicked].type;
+            this.state.tilePositions[currentClicked].type = "blank";
+            let temp1 = this.state.tilePositions[currentClicked].currentPosition
+            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked - 1].currentPosition;
+            this.state.tilePositions[currentClicked - 1].currentPosition = temp1;
 
-        if(this.state.tilePositions[currentClicked-1].type === "blank") {
-            this.state.tilePositions[currentClicked].type = this.state.tilePositions[currentClicked-1].type;
-            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked-1].currentPosition
-        } else if (this.state.tilePositions[currentClicked+1].type === "blank") {
-            this.state.tilePositions[currentClicked].type = this.state.tilePositions[currentClicked+1].type;
-            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked+1].currentPosition
-        } else if (this.state.tilePositions[currentClicked+4].type === "blank") {
-            this.state.tilePositions[currentClicked].type = this.state.tilePositions[currentClicked+4].type;
-            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked+4].currentPosition
-        } else if (this.state.tilePositions[currentClicked-4].type === "blank") {
-            this.state.tilePositions[currentClicked].type = this.state.tilePositions[currentClicked-4].type;
-            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked-4].currentPosition
-        } 
+        } else if (this.state.tilePositions[currentClicked + 1].type === "blank") {
+            this.state.tilePositions[currentClicked + 1].type = this.state.tilePositions[currentClicked].type
+            this.state.tilePositions[currentClicked].type = "blank";
+            let temp2 = this.state.tilePositions[currentClicked].currentPosition
+            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked + 1].currentPosition;
+            this.state.tilePositions[currentClicked + 1].currentPosition = temp2;
+
+        } else if (this.state.tilePositions[currentClicked + 4].type === "blank") {
+            this.state.tilePositions[currentClicked + 4].type = this.state.tilePositions[currentClicked].type
+            this.state.tilePositions[currentClicked].type = "blank";
+            let temp3 = this.state.tilePositions[currentClicked].currentPosition
+            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked + 4].currentPosition;
+            this.state.tilePositions[currentClicked + 4].currentPosition = temp3;
+
+        } else if (this.state.tilePositions[currentClicked - 4].type === "blank") {
+            this.state.tilePositions[currentClicked - 4].type = this.state.tilePositions[currentClicked].type
+            this.state.tilePositions[currentClicked].type = "blank";
+            let temp4 = this.state.tilePositions[currentClicked].currentPosition
+            this.state.tilePositions[currentClicked].currentPosition = this.state.tilePositions[currentClicked - 4].currentPosition;
+            this.state.tilePositions[currentClicked - 4].currentPosition = temp4;
+        }
         this.setState({
             tilePositions: this.state.tilePositions
         })
-
     }
 
     randomizeBoard() {
@@ -70,7 +77,7 @@ class Board extends React.Component {
     }
 
     checkWin() {
-    //
+        //if currentPositions match original array positions
     }
 
     render() {
@@ -85,14 +92,14 @@ class Board extends React.Component {
                     <div className="col-md-6 offset-3 col-sm-12">
                         <div className="row">
                             {this.state.tilePositions.map((item, index) => (
-                            <Tile
-                                key={index}
-                                currentPosition={item.currentPosition}
-                                winPosition={item.winPosition}
-                                showMove={this.showMove}
-                                type={item.type}
-                                id={item.type}
-                            />
+                                <Tile
+                                    key={index}
+                                    currentPosition={item.currentPosition}
+                                    winPosition={item.winPosition}
+                                    showMove={this.showMove}
+                                    type={item.type}
+                                    id={item.type}
+                                />
                             ))}
                         </div>
                     </div>

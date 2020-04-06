@@ -25,20 +25,14 @@ class Tile extends React.Component {
     switchTile(e) {
         e.preventDefault();
         console.log("click worked")
-        this.props.showMove(this.state.position)
-
-        // if (this.state.position === 0) {
-        //     this.setState({
-        //         position: 1
-        //     })
-        // }
+        this.props.showMove(this.props.currentPosition)
     }
 
     render() {
 
         return (
             <div onClick={this.switchTile}  id={this.props.type} className="col-md-3 border">
-                <div id="tile" className="text-center">{this.state.position}</div>
+                <div id="tile" className="text-center">{this.props.currentPosition}</div>
             </div>
         )
     }
