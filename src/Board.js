@@ -26,7 +26,9 @@ class Board extends React.Component {
     generateTilePositions() {
         let tilePositions = []
 
-        for (let i = 0; i < 16; i++) {
+        let boardSize = 16 //Let this be an available input for user to set size
+
+        for (let i = 0; i < boardSize; i++) {
             let obj = {
                 currentPosition: i,
                 winPosition: i,
@@ -40,37 +42,120 @@ class Board extends React.Component {
     }
 
     showMove(currentClicked) {
-       
+
         let tempPositions = this.state.tilePositions
         let tempObj = this.state.tilePositions[currentClicked]
 
         let newPosition = -1
+        //when the currentPosition is 12 or greater, + 4 is no longer valid
+        //9 variations of move sets
+        //do 9 nested if statements... for each of the 9 variations
 
-        if (tempPositions[currentClicked - 1].type === "blank" ) {
-            newPosition = currentClicked - 1
-
-        } else if (tempPositions[currentClicked + 1].type === "blank" && (!(tempPositions[currentClicked + 1] % 4 === 0))) {
-            newPosition = currentClicked + 1
-
-        } else if (tempPositions[currentClicked + 4].type === "blank") {
-            newPosition = currentClicked + 4
-
-        } else if (tempPositions[currentClicked - 4].type === "blank") {
-            newPosition = currentClicked - 4
-
+        //if 0
+        if (tempPositions[currentClicked].winPosition === 0) {
+            if (tempPositions[currentClicked + 1].type === "blank") {
+                newPosition = currentClicked + 1
+            } else if (tempPositions[currentClicked + 4].type === "blank") {
+                newPosition = currentClicked + 4
+            }
         }
-        
+
+        //if 3
+        else if (tempPositions[currentClicked].winPosition === 3) {
+            if (tempPositions[currentClicked - 1].type === "blank") {
+                newPosition = currentClicked - 1
+            } else if (tempPositions[currentClicked + 4].type === "blank") {
+                newPosition = currentClicked + 4
+
+            }
+        }
+
+        //if 1,2
+        else if (tempPositions[currentClicked].winPosition === 1 || tempPositions[currentClicked].winPosition === 2) {
+            if (tempPositions[currentClicked - 1].type === "blank") {
+                newPosition = currentClicked - 1
+            } else if (tempPositions[currentClicked + 1].type === "blank") {
+                newPosition = currentClicked + 1
+            } else if (tempPositions[currentClicked + 4].type === "blank") {
+                newPosition = currentClicked + 4
+            }
+        }
+
+        //if 4,8
+        else if (tempPositions[currentClicked].winPosition === 4 || tempPositions[currentClicked].winPosition === 8) {
+            if (tempPositions[currentClicked + 1].type === "blank") {
+                newPosition = currentClicked + 1
+            } else if (tempPositions[currentClicked + 4].type === "blank") {
+                newPosition = currentClicked + 4
+            } else if (tempPositions[currentClicked - 4].type === "blank") {
+                newPosition = currentClicked - 4
+            }
+        }
+
+        //if 5,6,9,10
+        else if (tempPositions[currentClicked].winPosition === 5 || tempPositions[currentClicked].winPosition === 6 || tempPositions[currentClicked].winPosition === 9 || tempPositions[currentClicked].winPosition === 10) {
+            if (tempPositions[currentClicked - 1].type === "blank") {
+                newPosition = currentClicked - 1
+            } else if (tempPositions[currentClicked + 1].type === "blank") {
+                newPosition = currentClicked + 1
+            } else if (tempPositions[currentClicked + 4].type === "blank") {
+                newPosition = currentClicked + 4
+            } else if (tempPositions[currentClicked - 4].type === "blank") {
+                newPosition = currentClicked - 4
+            }
+        }
+
+        //if 7, 11
+        else if (tempPositions[currentClicked].winPosition === 7 || tempPositions[currentClicked].winPosition === 11) {
+            if (tempPositions[currentClicked - 1].type === "blank") {
+                newPosition = currentClicked - 1
+            } else if (tempPositions[currentClicked + 4].type === "blank") {
+                newPosition = currentClicked + 4
+            } else if (tempPositions[currentClicked - 4].type === "blank") {
+                newPosition = currentClicked - 4
+            }
+        }
+
+        //if 12
+        else if (tempPositions[currentClicked].winPosition === 12) {
+            if (tempPositions[currentClicked - 4].type === "blank") {
+                newPosition = currentClicked - 4
+            } else if (tempPositions[currentClicked + 1].type === "blank") {
+                newPosition = currentClicked + 1
+            }
+        }
+
+        //if 13,14
+        else if (tempPositions[currentClicked].winPosition === 13 || tempPositions[currentClicked].winPosition === 14) {
+            if (tempPositions[currentClicked - 1].type === "blank") {
+                newPosition = currentClicked - 1
+            } else if (tempPositions[currentClicked + 1].type === "blank") {
+                newPosition = currentClicked + 1
+            } else if (tempPositions[currentClicked - 4].type === "blank") {
+                newPosition = currentClicked - 4
+            }
+        }
+
+        //if 15
+        else if (tempPositions[currentClicked].winPosition === 15) {
+            if (tempPositions[currentClicked - 1].type === "blank") {
+                newPosition = currentClicked - 1
+            } else if (tempPositions[currentClicked - 4].type === "blank") {
+                newPosition = currentClicked - 4
+            }
+        }
+
         if (!(newPosition === -1)) {
             tempPositions[newPosition].type = "regular";
             tempPositions[currentClicked].type = "blank";
             let temp = tempObj.currentPosition
             tempPositions[currentClicked].currentPosition = tempPositions[newPosition].currentPosition;
             tempPositions[newPosition].currentPosition = temp;
-            
+
             this.setState({
                 tilePositions: tempPositions
             })
-        } 
+        }
     }
 
     randomizeBoard(e) {
@@ -111,7 +196,7 @@ class Board extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Buttons 
+                <Buttons
                     scramble={this.randomizeBoard}
                 />
             </div>

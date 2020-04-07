@@ -5,7 +5,7 @@ class Upload extends React.Component {
         return (
             <div>
                 <form>
-                    <div class="form-group text-left">
+                    <div class="form-group">
                         <label for="exampleFormControlFile1"></label>
                         <input type="file" class="form-control-file" id="exampleFormControlFile1"></input>
                     </div>
