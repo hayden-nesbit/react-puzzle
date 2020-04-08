@@ -121,8 +121,8 @@ class Board extends React.Component {
                 tally = tally + 1
             }
         }
-        if (tally === 16) {
-          await alert("winner")
+         if (tally === 16) {
+            await alert("winner")
         }
     }
 
@@ -136,12 +136,13 @@ class Board extends React.Component {
                 </div>
                 <div className="row mt-5">
                     <div className="col-md-6 offset-3 col-6">
-                        <div id="grid" className="row">
+                        <div id="grid" className="row" style={{width:400}}>
                             {this.state.tilePositions.map((item, index) => (
                                 <Tile
                                     key={index}
                                     tempObj={item}
                                     showMove={this.showMove}
+                                    id={index}
                                 />
                             ))}
                         </div>
