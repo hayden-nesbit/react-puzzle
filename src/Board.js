@@ -12,11 +12,11 @@ class Board extends React.Component {
         this.showMove = this.showMove.bind(this)
         this.generateTilePositions = this.generateTilePositions.bind(this)
         this.randomizeBoard = this.randomizeBoard.bind(this)
-
+        this.checkWin = this.checkWin.bind(this)
     }
 
     componentDidUpdate() {
-        // window.localStorage.setItem('tilePositions', JSON.stringify(this.state.tilePositions))
+        this.checkWin()
     }
 
     componentDidMount() {
@@ -32,10 +32,12 @@ class Board extends React.Component {
             let obj = {
                 currentPosition: i,
                 winPosition: i,
-                type: i === 0 ? "blank" : "regular",
+                type: "regular",
             }
             tilePositions.push(obj)
         }
+        let bpos = this.findMe(0, tilePositions);
+        tilePositions[bpos].type = "blank";
         this.setState({
             tilePositions: tilePositions,
         })
@@ -43,128 +45,81 @@ class Board extends React.Component {
 
     showMove(currentClicked) {
 
+        //console.log(currentClicked)
         let tempPositions = this.state.tilePositions
-        let tempObj = this.state.tilePositions[currentClicked]
+        let zeroObj = this.state.tilePositions.find(i => i.currentPosition === 0)
+        let clickedObj = this.state.tilePositions[currentClicked]
 
-        let newPosition = -1
-        //when the currentPosition is 12 or greater, + 4 is no longer valid
-        //9 variations of move sets
-        //do 9 nested if statements... for each of the 9 variations
+        let zpos = this.findMe(zeroObj.currentPosition, this.state.tilePositions);
+        let cpos = this.findMe(clickedObj.currentPosition, this.state.tilePositions);
+        //console.log({clickedObj, zeroObj})
+        //console.log({cpos, zpos})
 
-        //if 0
-        if (tempPositions[currentClicked].winPosition === 0) {
-            if (tempPositions[currentClicked + 1].type === "blank") {
-                newPosition = currentClicked + 1
-            } else if (tempPositions[currentClicked + 4].type === "blank") {
-                newPosition = currentClicked + 4
-            }
+        let clickRow = parseInt((cpos) / 4)
+        let clickCol = (cpos) % 4
+
+        let blankRow = parseInt((zpos) / 4)
+        let blankCol = (zpos) % 4
+
+        let canSwitch = false;
+
+        //console.log({blankRow, blankCol})
+        //console.log({clickRow, clickCol})
+           
+        if (clickRow === blankRow && Math.abs(blankCol - clickCol) === 1) {
+            canSwitch = true;
+        } else if (clickCol === blankCol && Math.abs(blankRow - clickRow) === 1) {
+            canSwitch = true;
+        } else {
+            canSwitch = false;
         }
-
-        //if 3
-        else if (tempPositions[currentClicked].winPosition === 3) {
-            if (tempPositions[currentClicked - 1].type === "blank") {
-                newPosition = currentClicked - 1
-            } else if (tempPositions[currentClicked + 4].type === "blank") {
-                newPosition = currentClicked + 4
-
-            }
-        }
-
-        //if 1,2
-        else if (tempPositions[currentClicked].winPosition === 1 || tempPositions[currentClicked].winPosition === 2) {
-            if (tempPositions[currentClicked - 1].type === "blank") {
-                newPosition = currentClicked - 1
-            } else if (tempPositions[currentClicked + 1].type === "blank") {
-                newPosition = currentClicked + 1
-            } else if (tempPositions[currentClicked + 4].type === "blank") {
-                newPosition = currentClicked + 4
-            }
-        }
-
-        //if 4,8
-        else if (tempPositions[currentClicked].winPosition === 4 || tempPositions[currentClicked].winPosition === 8) {
-            if (tempPositions[currentClicked + 1].type === "blank") {
-                newPosition = currentClicked + 1
-            } else if (tempPositions[currentClicked + 4].type === "blank") {
-                newPosition = currentClicked + 4
-            } else if (tempPositions[currentClicked - 4].type === "blank") {
-                newPosition = currentClicked - 4
-            }
-        }
-
-        //if 5,6,9,10
-        else if (tempPositions[currentClicked].winPosition === 5 || tempPositions[currentClicked].winPosition === 6 || tempPositions[currentClicked].winPosition === 9 || tempPositions[currentClicked].winPosition === 10) {
-            if (tempPositions[currentClicked - 1].type === "blank") {
-                newPosition = currentClicked - 1
-            } else if (tempPositions[currentClicked + 1].type === "blank") {
-                newPosition = currentClicked + 1
-            } else if (tempPositions[currentClicked + 4].type === "blank") {
-                newPosition = currentClicked + 4
-            } else if (tempPositions[currentClicked - 4].type === "blank") {
-                newPosition = currentClicked - 4
-            }
-        }
-
-        //if 7, 11
-        else if (tempPositions[currentClicked].winPosition === 7 || tempPositions[currentClicked].winPosition === 11) {
-            if (tempPositions[currentClicked - 1].type === "blank") {
-                newPosition = currentClicked - 1
-            } else if (tempPositions[currentClicked + 4].type === "blank") {
-                newPosition = currentClicked + 4
-            } else if (tempPositions[currentClicked - 4].type === "blank") {
-                newPosition = currentClicked - 4
-            }
-        }
-
-        //if 12
-        else if (tempPositions[currentClicked].winPosition === 12) {
-            if (tempPositions[currentClicked - 4].type === "blank") {
-                newPosition = currentClicked - 4
-            } else if (tempPositions[currentClicked + 1].type === "blank") {
-                newPosition = currentClicked + 1
-            }
-        }
-
-        //if 13,14
-        else if (tempPositions[currentClicked].winPosition === 13 || tempPositions[currentClicked].winPosition === 14) {
-            if (tempPositions[currentClicked - 1].type === "blank") {
-                newPosition = currentClicked - 1
-            } else if (tempPositions[currentClicked + 1].type === "blank") {
-                newPosition = currentClicked + 1
-            } else if (tempPositions[currentClicked - 4].type === "blank") {
-                newPosition = currentClicked - 4
-            }
-        }
-
-        //if 15
-        else if (tempPositions[currentClicked].winPosition === 15) {
-            if (tempPositions[currentClicked - 1].type === "blank") {
-                newPosition = currentClicked - 1
-            } else if (tempPositions[currentClicked - 4].type === "blank") {
-                newPosition = currentClicked - 4
-            }
-        }
-
-        if (!(newPosition === -1)) {
-            tempPositions[newPosition].type = "regular";
-            tempPositions[currentClicked].type = "blank";
-            let temp = tempObj.currentPosition
-            tempPositions[currentClicked].currentPosition = tempPositions[newPosition].currentPosition;
-            tempPositions[newPosition].currentPosition = temp;
+        
+        if(canSwitch){
+            
+            tempPositions[cpos].type = "blank";
+            tempPositions[zpos].type = "regular";
+            //console.log({clickedObj, zeroObj})
+            let tmp = tempPositions[cpos].currentPosition;
+            tempPositions[cpos].currentPosition = zeroObj.currentPosition;
+            tempPositions[zpos].currentPosition = tmp;
 
             this.setState({
                 tilePositions: tempPositions
             })
         }
+     
     }
 
-    randomizeBoard(e) {
-        //set a function to take an array and randomize it's indexes
-        //sort it randomly
-        e.preventDefault()
-        console.log("here")
+    findMe(p, arr){
+        let k = 0;
+        for (let i = 0; i < arr.length; i++){
+            if(arr[i].currentPosition === p){
+                k = i;
+                break;
+            }
+        }
+        return k;
+    }
+
+    randomizeBoard() {
+        //swap tiles once, and call it a random number of times
+
+        //console.log("here")
         let tempPositions = this.state.tilePositions
-        tempPositions.sort(() => Math.random() - 0.5)
+        for (let i = tempPositions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * i)
+            const temp = tempPositions[i].currentPosition
+            tempPositions[i].currentPosition = tempPositions[j].currentPosition
+            tempPositions[j].currentPosition = temp
+            tempPositions[i].type = "regular";
+            tempPositions[j].type = "regular";
+        }
+        let bpos = this.findMe(0, tempPositions);
+        tempPositions[bpos].type = "blank";
+
+        // if (tempPositions.currentPosition === tempPositions.winPosition) {
+        //     this.randomizeBoard()
+        // }
 
         this.setState({
             tilePositions: tempPositions
@@ -172,7 +127,15 @@ class Board extends React.Component {
     }
 
     checkWin() {
-        //if currentPositions match original array positions
+        let tally = 0
+        for (let i = 0; i < this.state.tilePositions.length; i++) {
+            if (this.state.tilePositions[i].currentPosition === this.state.tilePositions[i].winPosition) {
+                tally = tally + 1
+            }
+        }
+        if (tally === 16) {
+
+        }
     }
 
     render() {
@@ -185,7 +148,7 @@ class Board extends React.Component {
                 </div>
                 <div className="row mt-5">
                     <div className="col-md-6 offset-3 col-6">
-                        <div className="row">
+                        <div id="grid" className="row">
                             {this.state.tilePositions.map((item, index) => (
                                 <Tile
                                     key={index}
@@ -197,7 +160,7 @@ class Board extends React.Component {
                     </div>
                 </div>
                 <Buttons
-                    scramble={this.randomizeBoard}
+                    randomize={this.randomizeBoard}
                 />
             </div>
         )
@@ -205,4 +168,3 @@ class Board extends React.Component {
 }
 
 export default Board
-
