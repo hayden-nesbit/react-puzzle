@@ -30,7 +30,7 @@ class Tile extends React.Component {
     render() {
         return (
             <div onClick={this.switchTile}  id={this.props.tempObj.type} className="col-md-3 col-3 border">
-                <div id="tile" className="text-center">{this.props.tempObj.currentPosition}</div>
+                <div id="tile" className="text-left">{this.props.tempObj.currentPosition}</div>
             </div>
         )
     }

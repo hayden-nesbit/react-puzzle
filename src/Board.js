@@ -33,6 +33,7 @@ class Board extends React.Component {
                 currentPosition: i,
                 winPosition: i,
                 type: "regular",
+                img: ''
             }
             tilePositions.push(obj)
         }
@@ -45,15 +46,12 @@ class Board extends React.Component {
 
     showMove(currentClicked) {
 
-        //console.log(currentClicked)
         let tempPositions = this.state.tilePositions
         let zeroObj = this.state.tilePositions.find(i => i.currentPosition === 0)
         let clickedObj = this.state.tilePositions[currentClicked]
 
         let zpos = this.findMe(zeroObj.currentPosition, this.state.tilePositions);
         let cpos = this.findMe(clickedObj.currentPosition, this.state.tilePositions);
-        //console.log({clickedObj, zeroObj})
-        console.log({cpos, zpos})
 
         let clickRow = parseInt((cpos) / 4)
         let clickCol = (cpos) % 4
@@ -63,9 +61,6 @@ class Board extends React.Component {
 
         let canSwitch = false;
 
-        //console.log({blankRow, blankCol})
-        //console.log({clickRow, clickCol})
-           
         if (clickRow === blankRow && Math.abs(blankCol - clickCol) === 1) {
             canSwitch = true;
         } else if (clickCol === blankCol && Math.abs(blankRow - clickRow) === 1) {
@@ -102,9 +97,6 @@ class Board extends React.Component {
     }
 
     randomizeBoard() {
-        //swap tiles once, and call it a random number of times
-
-        //console.log("here")
         let tempPositions = this.state.tilePositions
         for (let i = tempPositions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * i)
@@ -117,16 +109,12 @@ class Board extends React.Component {
         let bpos = this.findMe(0, tempPositions);
         tempPositions[bpos].type = "blank";
 
-        // if (tempPositions.currentPosition === tempPositions.winPosition) {
-        //     this.randomizeBoard()
-        // }
-
         this.setState({
             tilePositions: tempPositions
         })
     }
 
-    checkWin() {
+    async checkWin() {
         let tally = 0
         for (let i = 0; i < this.state.tilePositions.length; i++) {
             if (this.state.tilePositions[i].currentPosition === this.state.tilePositions[i].winPosition) {
@@ -134,7 +122,7 @@ class Board extends React.Component {
             }
         }
         if (tally === 16) {
-
+          await alert("winner")
         }
     }
 

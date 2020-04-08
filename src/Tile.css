@@ -1,9 +1,14 @@
 #tile {
     min-height: 90px;
-    min-width: 90px
+    min-width: 90px;
 }
 
 #blank {
     background-color: black;
     color: black
 }
+
+#regular {
+    background-color: rgb(245, 207, 39);
+}
+
