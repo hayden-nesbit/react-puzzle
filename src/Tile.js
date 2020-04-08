@@ -31,7 +31,7 @@ class Tile extends React.Component {
     render() {
 
         return (
-            <div onClick={this.switchTile}  id={this.props.type} className="col-md-3 col-3 border" style={{height:100, width:100, overflow:"hidden"}}>
+            <div onClick={this.switchTile}  id={this.props.type} className="col-md-3 col-3 border bg-secondary" style={{height:100, width:100, overflow:"hidden"}}>
                 <img id={this.props.id} src={logo} />
                 {/* <div className="text-left">{this.props.tempObj.currentPosition}</div> will change to {this.props.tempObj.img} */}
             </div>
