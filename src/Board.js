@@ -32,10 +32,12 @@ class Board extends React.Component {
             let obj = {
                 currentPosition: i,
                 winPosition: i,
-                type: i === 0 ? "blank" : "regular",
+                type: "regular",
             }
             tilePositions.push(obj)
         }
+        let bpos = this.findMe(0, tilePositions);
+        tilePositions[bpos].type = "blank";
         this.setState({
             tilePositions: tilePositions,
         })
@@ -43,22 +45,26 @@ class Board extends React.Component {
 
     showMove(currentClicked) {
 
-        //console.log(this.state.tilePositions)
+        //console.log(currentClicked)
         let tempPositions = this.state.tilePositions
-        let zeroObj = this.state.tilePositions.find(i => i.winPosition === 0)
-        //array find to look for index of currentPosition 0 
+        let zeroObj = this.state.tilePositions.find(i => i.currentPosition === 0)
         let clickedObj = this.state.tilePositions[currentClicked]
-        console.log({clickedObj, zeroObj})
 
-        let newPosition = -1
+        let zpos = this.findMe(zeroObj.currentPosition, this.state.tilePositions);
+        let cpos = this.findMe(clickedObj.currentPosition, this.state.tilePositions);
+        //console.log({clickedObj, zeroObj})
+        console.log({cpos, zpos})
 
-        let clickRow = parseInt((clickedObj.currentPosition) / 4)
-        let clickCol = (clickedObj.currentPosition) % 4
+        let clickRow = parseInt((cpos) / 4)
+        let clickCol = (cpos) % 4
 
-        let blankRow = parseInt((zeroObj.currentPosition) / 4)
-        let blankCol = (zeroObj.currentPosition) % 4
+        let blankRow = parseInt((zpos) / 4)
+        let blankCol = (zpos) % 4
 
         let canSwitch = false;
+
+        //console.log({blankRow, blankCol})
+        //console.log({clickRow, clickCol})
            
         if (clickRow === blankRow && Math.abs(blankCol - clickCol) === 1) {
             canSwitch = true;
@@ -69,21 +75,13 @@ class Board extends React.Component {
         }
         
         if(canSwitch){
-            // newPosition = clickedObj.currentPosition
-            // let temp = zeroObj.currentPosition
-            let zpos = this.findMe(zeroObj.currentPosition);
-            let cpos = this.findMe(clickedObj.currentPosition);
-            let npos = this.findMe(clickedObj.currentPosition);
-
+            
             tempPositions[cpos].type = "blank";
             tempPositions[zpos].type = "regular";
-            // console.log({zeroObj.currentPosition, zeroObj})
-            // clickedObj - winPosition is equal to it's index
-            // zeroObj - winPosition currentPosition  is changing with each click
-            console.log(tempPositions[cpos].currentPosition);
-            console.log(tempPositions[zpos].currentPosition);
+            //console.log({clickedObj, zeroObj})
+            let tmp = tempPositions[cpos].currentPosition;
             tempPositions[cpos].currentPosition = zeroObj.currentPosition;
-            tempPositions[zpos].currentPosition = cpos;
+            tempPositions[zpos].currentPosition = tmp;
 
             this.setState({
                 tilePositions: tempPositions
@@ -92,10 +90,10 @@ class Board extends React.Component {
      
     }
 
-    findMe(p){
+    findMe(p, arr){
         let k = 0;
-        for (let i = 0; i < this.state.tilePositions.length; i++){
-            if(this.state.tilePositions[i].currentPosition === p){
+        for (let i = 0; i < arr.length; i++){
+            if(arr[i].currentPosition === p){
                 k = i;
                 break;
             }
@@ -106,14 +104,18 @@ class Board extends React.Component {
     randomizeBoard() {
         //swap tiles once, and call it a random number of times
 
-        console.log("here")
+        //console.log("here")
         let tempPositions = this.state.tilePositions
         for (let i = tempPositions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * i)
             const temp = tempPositions[i].currentPosition
             tempPositions[i].currentPosition = tempPositions[j].currentPosition
             tempPositions[j].currentPosition = temp
+            tempPositions[i].type = "regular";
+            tempPositions[j].type = "regular";
         }
+        let bpos = this.findMe(0, tempPositions);
+        tempPositions[bpos].type = "blank";
 
         // if (tempPositions.currentPosition === tempPositions.winPosition) {
         //     this.randomizeBoard()
@@ -131,7 +133,7 @@ class Board extends React.Component {
                 tally = tally + 1
             }
         }
-        if (tally = 16) {
+        if (tally === 16) {
 
         }
     }
@@ -166,4 +168,3 @@ class Board extends React.Component {
 }
 
 export default Board
-
