@@ -19,7 +19,7 @@ class Tile extends React.Component {
     }
 
     componentDidUpdate() {
-        
+
     }
 
     switchTile(e) {

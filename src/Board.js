@@ -43,172 +43,85 @@ class Board extends React.Component {
 
     showMove(currentClicked) {
 
+        //console.log(this.state.tilePositions)
         let tempPositions = this.state.tilePositions
-        let tempObj = this.state.tilePositions[currentClicked]
+        let zeroObj = this.state.tilePositions.find(i => i.winPosition === 0)
+        //array find to look for index of currentPosition 0 
+        let clickedObj = this.state.tilePositions[currentClicked]
+        console.log({clickedObj, zeroObj})
 
         let newPosition = -1
 
-        let targetRow = parseInt((tempPositions[currentClicked].winPosition) / 4)
-        let targetCol = (tempPositions[currentClicked].winPosition) % 4
+        let clickRow = parseInt((clickedObj.currentPosition) / 4)
+        let clickCol = (clickedObj.currentPosition) % 4
 
-        let blankRow = parseInt((tempPositions[0].currentPosition) / 4)
-        let blankCol = (tempPositions[0].currentPosition) % 4
+        let blankRow = parseInt((zeroObj.currentPosition) / 4)
+        let blankCol = (zeroObj.currentPosition) % 4
 
-
-        console.log({ targetRow, targetCol })
-        console.log({ blankRow, blankCol })
-
-
-        if (targetRow === blankRow && Math.abs(blankCol - targetCol) === 1) {
-            newPosition =
-            tempPositions[newPosition].type = "regular";
-            tempPositions[currentClicked].type = "blank";
-            let temp = tempObj.currentPosition
-            tempPositions[currentClicked].currentPosition = tempPositions[newPosition].currentPosition;
-            tempPositions[newPosition].currentPosition = temp;
+        let canSwitch = false;
+           
+        if (clickRow === blankRow && Math.abs(blankCol - clickCol) === 1) {
+            canSwitch = true;
+        } else if (clickCol === blankCol && Math.abs(blankRow - clickRow) === 1) {
+            canSwitch = true;
+        } else {
+            canSwitch = false;
         }
+        
+        if(canSwitch){
+            // newPosition = clickedObj.currentPosition
+            // let temp = zeroObj.currentPosition
+            let zpos = this.findMe(zeroObj.currentPosition);
+            let cpos = this.findMe(clickedObj.currentPosition);
+            let npos = this.findMe(clickedObj.currentPosition);
 
-        else if (targetCol === blankCol && Math.abs(blankRow - targetRow) === 1) {
-            newPosition =
-            tempPositions[newPosition].type = "regular";
-            tempPositions[currentClicked].type = "blank";
-            let temp = tempObj.currentPosition
-            tempPositions[currentClicked].currentPosition = tempPositions[newPosition].currentPosition;
-            tempPositions[newPosition].currentPosition = temp;
-        }
+            tempPositions[cpos].type = "blank";
+            tempPositions[zpos].type = "regular";
+            // console.log({zeroObj.currentPosition, zeroObj})
+            // clickedObj - winPosition is equal to it's index
+            // zeroObj - winPosition currentPosition  is changing with each click
+            console.log(tempPositions[cpos].currentPosition);
+            console.log(tempPositions[zpos].currentPosition);
+            tempPositions[cpos].currentPosition = zeroObj.currentPosition;
+            tempPositions[zpos].currentPosition = cpos;
 
-        this.setState({
-            tilePositions: tempPositions
-        })
-
-    }
-
-
-    // //if 0
-    // if (tempPositions[currentClicked].winPosition === 0) {
-    //     if (tempPositions[currentClicked + 1].type === "blank") {
-    //         newPosition = currentClicked + 1
-    //     } else if (tempPositions[currentClicked + 4].type === "blank") {
-    //         newPosition = currentClicked + 4
-    //     }
-    // }
-
-    // //if 3
-    // else if (tempPositions[currentClicked].winPosition === 3) {
-    //     if (tempPositions[currentClicked - 1].type === "blank") {
-    //         newPosition = currentClicked - 1
-    //     } else if (tempPositions[currentClicked + 4].type === "blank") {
-    //         newPosition = currentClicked + 4
-    //     }
-    // }
-
-    // //if 1,2
-    // else if (tempPositions[currentClicked].winPosition === 1 || tempPositions[currentClicked].winPosition === 2) {
-    //     if (tempPositions[currentClicked - 1].type === "blank") {
-    //         newPosition = currentClicked - 1
-    //     } else if (tempPositions[currentClicked + 1].type === "blank") {
-    //         newPosition = currentClicked + 1
-    //     } else if (tempPositions[currentClicked + 4].type === "blank") {
-    //         newPosition = currentClicked + 4
-    //     }
-    // }
-
-    // //if 4,8
-    // else if (tempPositions[currentClicked].winPosition === 4 || tempPositions[currentClicked].winPosition === 8) {
-    //     if (tempPositions[currentClicked + 1].type === "blank") {
-    //         newPosition = currentClicked + 1
-    //     } else if (tempPositions[currentClicked + 4].type === "blank") {
-    //         newPosition = currentClicked + 4
-    //     } else if (tempPositions[currentClicked - 4].type === "blank") {
-    //         newPosition = currentClicked - 4
-    //     }
-    // }
-
-    // //if 5,6,9,10
-    // else if (tempPositions[currentClicked].winPosition === 5 || tempPositions[currentClicked].winPosition === 6 || tempPositions[currentClicked].winPosition === 9 || tempPositions[currentClicked].winPosition === 10) {
-    //     if (tempPositions[currentClicked - 1].type === "blank") {
-    //         newPosition = currentClicked - 1
-    //     } else if (tempPositions[currentClicked + 1].type === "blank") {
-    //         newPosition = currentClicked + 1
-    //     } else if (tempPositions[currentClicked + 4].type === "blank") {
-    //         newPosition = currentClicked + 4
-    //     } else if (tempPositions[currentClicked - 4].type === "blank") {
-    //         newPosition = currentClicked - 4
-    //     }
-    // }
-
-    // //if 7, 11
-    // else if (tempPositions[currentClicked].winPosition === 7 || tempPositions[currentClicked].winPosition === 11) {
-    //     if (tempPositions[currentClicked - 1].type === "blank") {
-    //         newPosition = currentClicked - 1
-    //     } else if (tempPositions[currentClicked + 4].type === "blank") {
-    //         newPosition = currentClicked + 4
-    //     } else if (tempPositions[currentClicked - 4].type === "blank") {
-    //         newPosition = currentClicked - 4
-    //     }
-    // }
-
-    // //if 12
-    // else if (tempPositions[currentClicked].winPosition === 12) {
-    //     if (tempPositions[currentClicked - 4].type === "blank") {
-    //         newPosition = currentClicked - 4
-    //     } else if (tempPositions[currentClicked + 1].type === "blank") {
-    //         newPosition = currentClicked + 1
-    //     }
-    // }
-
-    // //if 13,14
-    // else if (tempPositions[currentClicked].winPosition === 13 || tempPositions[currentClicked].winPosition === 14) {
-    //     if (tempPositions[currentClicked - 1].type === "blank") {
-    //         newPosition = currentClicked - 1
-    //     } else if (tempPositions[currentClicked + 1].type === "blank") {
-    //         newPosition = currentClicked + 1
-    //     } else if (tempPositions[currentClicked - 4].type === "blank") {
-    //         newPosition = currentClicked - 4
-    //     }
-    // }
-
-    // //if 15
-    // else if (tempPositions[currentClicked].winPosition === 15) {
-    //     if (tempPositions[currentClicked - 1].type === "blank") {
-    //         newPosition = currentClicked - 1
-    //     } else if (tempPositions[currentClicked - 4].type === "blank") {
-    //         newPosition = currentClicked - 4
-    //     }
-    // }
-
-    // if (!(newPosition === -1)) {
-    //     tempPositions[newPosition].type = "regular";
-    //     tempPositions[currentClicked].type = "blank";
-    //     let temp = tempObj.currentPosition
-    //     tempPositions[currentClicked].currentPosition = tempPositions[newPosition].currentPosition;
-    //     tempPositions[newPosition].currentPosition = temp;
-
-    //     this.setState({
-    //         tilePositions: tempPositions
-    //     })
-    // }
-
-
-    randomizeBoard() {
-        //set a function to take an array and randomize it's indexes
-        //sort it randomly
-        console.log("here")
-        let tempPositions = this.state.tilePositions
-        for (let i = tempPositions.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * i)
-            const temp = tempPositions[i]
-            tempPositions[i] = tempPositions[j]
-            tempPositions[j] = temp
-
-            // if (tempPositions === this.state.tilePositions) {
-            //     this.randomizeBoard()
-            // } else {
             this.setState({
                 tilePositions: tempPositions
             })
         }
+     
+    }
 
+    findMe(p){
+        let k = 0;
+        for (let i = 0; i < this.state.tilePositions.length; i++){
+            if(this.state.tilePositions[i].currentPosition === p){
+                k = i;
+                break;
+            }
+        }
+        return k;
+    }
+
+    randomizeBoard() {
+        //swap tiles once, and call it a random number of times
+
+        console.log("here")
+        let tempPositions = this.state.tilePositions
+        for (let i = tempPositions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * i)
+            const temp = tempPositions[i].currentPosition
+            tempPositions[i].currentPosition = tempPositions[j].currentPosition
+            tempPositions[j].currentPosition = temp
+        }
+
+        // if (tempPositions.currentPosition === tempPositions.winPosition) {
+        //     this.randomizeBoard()
+        // }
+
+        this.setState({
+            tilePositions: tempPositions
+        })
     }
 
     checkWin() {
@@ -219,6 +132,7 @@ class Board extends React.Component {
             }
         }
         if (tally = 16) {
+
         }
     }
 
