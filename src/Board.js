@@ -61,8 +61,6 @@ class Board extends React.Component {
         let zpos = this.findMe(zeroObj.currentPosition, this.state.tilePositions);
         let cpos = this.findMe(clickedObj.currentPosition, this.state.tilePositions);
 
-        console.log(cpos)
-
         let clickRow = parseInt((cpos) / 4)
         let clickCol = (cpos) % 4
 
