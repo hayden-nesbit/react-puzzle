@@ -28,14 +28,23 @@ class Board extends React.Component {
 
         let boardSize = 16 //Let this be an available input for user to set size
 
+
         for (let i = 0; i < boardSize; i++) {
+            
+            let clickRow = parseInt((i) / 4)
+            let clickCol = (i) % 4
+            let tileLoc = [clickRow, clickCol]
             let obj = {
                 currentPosition: i,
                 winPosition: i,
                 type: "regular",
+                tileLoc: tileLoc
             }
             tilePositions.push(obj)
         }
+
+       
+
         let bpos = this.findMe(0, tilePositions);
         tilePositions[bpos].type = "blank";
         this.setState({
@@ -45,15 +54,14 @@ class Board extends React.Component {
 
     showMove(currentClicked) {
 
-        //console.log(currentClicked)
         let tempPositions = this.state.tilePositions
         let zeroObj = this.state.tilePositions.find(i => i.currentPosition === 0)
         let clickedObj = this.state.tilePositions[currentClicked]
 
         let zpos = this.findMe(zeroObj.currentPosition, this.state.tilePositions);
         let cpos = this.findMe(clickedObj.currentPosition, this.state.tilePositions);
-        //console.log({clickedObj, zeroObj})
-        //console.log({cpos, zpos})
+
+        console.log(cpos)
 
         let clickRow = parseInt((cpos) / 4)
         let clickCol = (cpos) % 4
@@ -63,9 +71,6 @@ class Board extends React.Component {
 
         let canSwitch = false;
 
-        //console.log({blankRow, blankCol})
-        //console.log({clickRow, clickCol})
-           
         if (clickRow === blankRow && Math.abs(blankCol - clickCol) === 1) {
             canSwitch = true;
         } else if (clickCol === blankCol && Math.abs(blankRow - clickRow) === 1) {
@@ -75,16 +80,20 @@ class Board extends React.Component {
         }
         
         if(canSwitch){
-            
+
             tempPositions[cpos].type = "blank";
             tempPositions[zpos].type = "regular";
-            //console.log({clickedObj, zeroObj})
+
+            let tmpLoc = tempPositions[cpos].tileLoc;
+            tempPositions[cpos].tileLoc = zeroObj.tileLoc
+            tempPositions[zpos].tileLoc = tmpLoc
+
             let tmp = tempPositions[cpos].currentPosition;
             tempPositions[cpos].currentPosition = zeroObj.currentPosition;
             tempPositions[zpos].currentPosition = tmp;
 
             this.setState({
-                tilePositions: tempPositions
+                tilePositions: tempPositions,
             })
         }
      
@@ -102,39 +111,32 @@ class Board extends React.Component {
     }
 
     randomizeBoard() {
-        //swap tiles once, and call it a random number of times
-
-        //console.log("here")
         let tempPositions = this.state.tilePositions
         for (let i = tempPositions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * i)
-            const temp = tempPositions[i].currentPosition
-            tempPositions[i].currentPosition = tempPositions[j].currentPosition
-            tempPositions[j].currentPosition = temp
+            const temp = tempPositions[i].tileLoc
+            tempPositions[i].tileLoc = tempPositions[j].tileLoc
+            tempPositions[j].tileLoc = temp
             tempPositions[i].type = "regular";
             tempPositions[j].type = "regular";
         }
         let bpos = this.findMe(0, tempPositions);
         tempPositions[bpos].type = "blank";
 
-        // if (tempPositions.currentPosition === tempPositions.winPosition) {
-        //     this.randomizeBoard()
-        // }
-
         this.setState({
             tilePositions: tempPositions
         })
     }
 
-    checkWin() {
+    async checkWin() {
         let tally = 0
         for (let i = 0; i < this.state.tilePositions.length; i++) {
             if (this.state.tilePositions[i].currentPosition === this.state.tilePositions[i].winPosition) {
                 tally = tally + 1
             }
         }
-        if (tally === 16) {
-
+         if (tally === 16) {
+            await alert("winner")
         }
     }
 
@@ -148,12 +150,13 @@ class Board extends React.Component {
                 </div>
                 <div className="row mt-5">
                     <div className="col-md-6 offset-3 col-6">
-                        <div id="grid" className="row">
+                        <div id="grid" className="row" style={{width:400}}>
                             {this.state.tilePositions.map((item, index) => (
                                 <Tile
                                     key={index}
                                     tempObj={item}
                                     showMove={this.showMove}
+                                    id={index}
                                 />
                             ))}
                         </div>
