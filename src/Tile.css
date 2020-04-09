@@ -1,8 +1,143 @@
-#tile {
-    min-height: 90px;
-    min-width: 90px
+
+
+[id="0"] {
+    background-color: black;
 }
 
-#blank {
-    background-color: rgb(119, 121, 126);
+img {
+    height: 400px;
+    width: 400px;
+    position: relative;
 }
+
+/* 
+[id="1"] {
+    
+    top: 0;
+    left: -100px;
+}
+
+
+[id="2"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: 0;
+    left: -200px;
+}
+
+
+[id="3"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: 0;
+    left: -300px;
+}
+
+[id="4"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -100px;
+    left: 0;
+}
+
+
+[id="5"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -100px;
+    left: -100px;
+}
+
+
+[id="6"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -100px;
+    left: -200px;
+}
+
+[id="7"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -100px;
+    left: -300px;
+} 
+
+
+
+[id="8"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -200px;
+    left: 0;
+}
+
+
+[id="9"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -200px;
+    left: -100px;
+}
+
+
+[id="10"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -200px;
+    left: -200px;
+}
+
+
+[id="11"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -200px;
+    left: -300px;
+} 
+
+
+
+[id="12"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -300px;
+    left: 0;
+} 
+
+
+[id="13"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -300px;
+    left: -100px;
+}
+
+
+[id="14"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -300px;
+    left: -200px;
+}
+
+[id="15"] {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: -300px;
+    left: -300px;
+}     */
