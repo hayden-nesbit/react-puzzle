@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/react-puzzle/static/css/main.4605269c.chunk.css",
+    "main.js": "/react-puzzle/static/js/main.1143c91b.chunk.js",
+    "main.js.map": "/react-puzzle/static/js/main.1143c91b.chunk.js.map",
+    "runtime-main.js": "/react-puzzle/static/js/runtime-main.5869cf2f.js",
+    "runtime-main.js.map": "/react-puzzle/static/js/runtime-main.5869cf2f.js.map",
+    "static/css/2.de424728.chunk.css": "/react-puzzle/static/css/2.de424728.chunk.css",
+    "static/js/2.836d4ae0.chunk.js": "/react-puzzle/static/js/2.836d4ae0.chunk.js",
+    "static/js/2.836d4ae0.chunk.js.map": "/react-puzzle/static/js/2.836d4ae0.chunk.js.map",
+    "index.html": "/react-puzzle/index.html",
+    "precache-manifest.6c60e3c1666ca28160002dec2c3feab8.js": "/react-puzzle/precache-manifest.6c60e3c1666ca28160002dec2c3feab8.js",
+    "service-worker.js": "/react-puzzle/service-worker.js",
+    "static/css/2.de424728.chunk.css.map": "/react-puzzle/static/css/2.de424728.chunk.css.map",
+    "static/css/main.4605269c.chunk.css.map": "/react-puzzle/static/css/main.4605269c.chunk.css.map",
+    "static/js/2.836d4ae0.chunk.js.LICENSE.txt": "/react-puzzle/static/js/2.836d4ae0.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5869cf2f.js",
+    "static/css/2.de424728.chunk.css",
+    "static/js/2.836d4ae0.chunk.js",
+    "static/css/main.4605269c.chunk.css",
+    "static/js/main.1143c91b.chunk.js"
+  ]
+}
