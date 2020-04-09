@@ -25,7 +25,6 @@ class Tile extends React.Component {
       
     }
 
-   
 
     switchTile(e) {
         e.preventDefault();
