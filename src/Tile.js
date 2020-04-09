@@ -7,7 +7,9 @@ class Tile extends React.Component {
         super(props)
         this.state = {
             type: '',
-            position: -1
+            position: -1,
+            top: '',
+            left: '',
         }
         this.switchTile = this.switchTile.bind(this)
     }
@@ -20,8 +22,10 @@ class Tile extends React.Component {
     }
 
     componentDidUpdate() {
-
+      
     }
+
+   
 
     switchTile(e) {
         e.preventDefault();
@@ -30,10 +34,14 @@ class Tile extends React.Component {
 
     render() {
 
+        let location = this.props.tempObj.tileLoc
+        let top = location[0] * -100
+        let left = location[1] * -100
+        console.log({top, left})
+
         return (
-            <div onClick={this.switchTile}  id={this.props.type} className="col-md-3 col-3 border bg-secondary" style={{height:100, width:100, overflow:"hidden"}}>
-                <img id={this.props.id} src={logo} />
-                {/* <div className="text-left">{this.props.tempObj.currentPosition}</div> will change to {this.props.tempObj.img} */}
+            <div onClick={this.switchTile}  id={this.props.type} className="col-md-3 col-3 border p-0 bg-secondary" style={{height:100, width:100, overflow:"hidden"}}>
+                <img style={{top:top, left:left}} id={this.props.id} src={logo} />
             </div>
         )
     }

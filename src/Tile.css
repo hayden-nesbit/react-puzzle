@@ -1,20 +1,18 @@
- {
+
+
+[id="0"] {
     background-color: black;
 }
 
-[id="0"] {
+img {
     height: 400px;
     width: 400px;
     position: relative;
-    top: 0%;
-    left: 0%;
 }
 
-
+/* 
 [id="1"] {
-    height: 400px;
-    width: 400px;
-    position: relative;
+    
     top: 0;
     left: -100px;
 }
@@ -36,7 +34,6 @@
     top: 0;
     left: -300px;
 }
-/*-----------------------------------------------------*/
 
 [id="4"] {
     height: 400px;
@@ -109,6 +106,8 @@
     left: -300px;
 } 
 
+
+
 [id="12"] {
     height: 400px;
     width: 400px;
@@ -141,4 +140,4 @@
     position: relative;
     top: -300px;
     left: -300px;
-}   
+}     */

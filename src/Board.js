@@ -28,15 +28,23 @@ class Board extends React.Component {
 
         let boardSize = 16 //Let this be an available input for user to set size
 
+
         for (let i = 0; i < boardSize; i++) {
+            
+            let clickRow = parseInt((i) / 4)
+            let clickCol = (i) % 4
+            let tileLoc = [clickRow, clickCol]
             let obj = {
                 currentPosition: i,
                 winPosition: i,
                 type: "regular",
-                img: ''
+                tileLoc: tileLoc
             }
             tilePositions.push(obj)
         }
+
+       
+
         let bpos = this.findMe(0, tilePositions);
         tilePositions[bpos].type = "blank";
         this.setState({
@@ -52,6 +60,8 @@ class Board extends React.Component {
 
         let zpos = this.findMe(zeroObj.currentPosition, this.state.tilePositions);
         let cpos = this.findMe(clickedObj.currentPosition, this.state.tilePositions);
+
+        console.log(cpos)
 
         let clickRow = parseInt((cpos) / 4)
         let clickCol = (cpos) % 4
@@ -70,16 +80,20 @@ class Board extends React.Component {
         }
         
         if(canSwitch){
-            
+
             tempPositions[cpos].type = "blank";
             tempPositions[zpos].type = "regular";
-            //console.log({clickedObj, zeroObj})
+
+            let tmpLoc = tempPositions[cpos].tileLoc;
+            tempPositions[cpos].tileLoc = zeroObj.tileLoc
+            tempPositions[zpos].tileLoc = tmpLoc
+
             let tmp = tempPositions[cpos].currentPosition;
             tempPositions[cpos].currentPosition = zeroObj.currentPosition;
             tempPositions[zpos].currentPosition = tmp;
 
             this.setState({
-                tilePositions: tempPositions
+                tilePositions: tempPositions,
             })
         }
      
@@ -100,9 +114,9 @@ class Board extends React.Component {
         let tempPositions = this.state.tilePositions
         for (let i = tempPositions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * i)
-            const temp = tempPositions[i].currentPosition
-            tempPositions[i].currentPosition = tempPositions[j].currentPosition
-            tempPositions[j].currentPosition = temp
+            const temp = tempPositions[i].tileLoc
+            tempPositions[i].tileLoc = tempPositions[j].tileLoc
+            tempPositions[j].tileLoc = temp
             tempPositions[i].type = "regular";
             tempPositions[j].type = "regular";
         }
