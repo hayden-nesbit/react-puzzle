@@ -33,11 +33,6 @@ class Tile extends React.Component {
     }
 
     render() {
-<<<<<<< HEAD
-        return (
-            <div onClick={this.switchTile}  id={this.props.tempObj.type} className="col-md-3 col-3 border">
-                <div id="tile" className="text-center">{this.props.tempObj.currentPosition}</div>
-=======
 
         let location = this.props.tempObj.tileLoc
         let top = location[0] * -100
@@ -47,7 +42,6 @@ class Tile extends React.Component {
         return (
             <div onClick={this.switchTile}  id={this.props.type} className="col-md-3 col-3 border p-0 bg-secondary" style={{height:100, width:100, overflow:"hidden"}}>
                 <img style={{top:top, left:left}} id={this.props.id} src={logo} />
->>>>>>> 921920b358b421c1700b4c2e1591d6aa4c5af4ab
             </div>
         )
     }
