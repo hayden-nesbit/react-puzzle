@@ -54,7 +54,6 @@ class Board extends React.Component {
 
     showMove(currentClicked) {
 
-        //console.log(currentClicked)
         let tempPositions = this.state.tilePositions
         let zeroObj = this.state.tilePositions.find(i => i.currentPosition === 0)
         let clickedObj = this.state.tilePositions[currentClicked]

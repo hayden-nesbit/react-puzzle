@@ -48,4 +48,4 @@ class Tile extends React.Component {
 
 }
 
-export default Tile
+    export default Tile
