@@ -1,13 +1,14 @@
 import React from 'react'
 
 class Upload extends React.Component {
+    
     render() {
         return (
             <div>
                 <form>
                     <div class="form-group">
-                        <label for="exampleFormControlFile1"></label>
-                        <input type="file" class="form-control-file" id="exampleFormControlFile1"></input>
+                        <label for="fileInput"></label>
+                        <input onChange={this.props.setImg} type="file" class="form-control-file" id="fileInput"></input>
                     </div>
                 </form>
             </div>

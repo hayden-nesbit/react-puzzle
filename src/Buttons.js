@@ -14,7 +14,7 @@ class Buttons extends React.Component {
 
     render() {
         return (
-            <div className="mt-5" >
+            <div className="mt-5 text-left ml-5" >
                 <button onClick={this.handleClick} type="button" class="btn btn-secondary btn-md">Scramble</button>
             </div>
         )

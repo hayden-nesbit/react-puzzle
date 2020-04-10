@@ -8,11 +8,15 @@ class Board extends React.Component {
         super(props)
         this.state = {
             tilePositions: [],
+            imgURL: 'logo.svg'
         }
+
         this.showMove = this.showMove.bind(this)
         this.generateTilePositions = this.generateTilePositions.bind(this)
         this.randomizeBoard = this.randomizeBoard.bind(this)
         this.checkWin = this.checkWin.bind(this)
+        this.setImage = this.setImage.bind(this)
+        // this.runRandom = this.runRandom.bind(this)
     }
 
     componentDidUpdate() {
@@ -30,7 +34,7 @@ class Board extends React.Component {
 
 
         for (let i = 0; i < boardSize; i++) {
-            
+
             let clickRow = parseInt((i) / 4)
             let clickCol = (i) % 4
             let tileLoc = [clickRow, clickCol]
@@ -42,8 +46,6 @@ class Board extends React.Component {
             }
             tilePositions.push(obj)
         }
-
-       
 
         let bpos = this.findMe(0, tilePositions);
         tilePositions[bpos].type = "blank";
@@ -76,8 +78,8 @@ class Board extends React.Component {
         } else {
             canSwitch = false;
         }
-        
-        if(canSwitch){
+
+        if (canSwitch) {
 
             tempPositions[cpos].type = "blank";
             tempPositions[zpos].type = "regular";
@@ -94,13 +96,12 @@ class Board extends React.Component {
                 tilePositions: tempPositions,
             })
         }
-     
     }
 
-    findMe(p, arr){
+    findMe(p, arr) {
         let k = 0;
-        for (let i = 0; i < arr.length; i++){
-            if(arr[i].currentPosition === p){
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].currentPosition === p) {
                 k = i;
                 break;
             }
@@ -108,9 +109,15 @@ class Board extends React.Component {
         return k;
     }
 
+    // runRandom() {
+    //     this.randomizeBoard()
+    // }
+
     randomizeBoard() {
-       
+
         let tempPositions = this.state.tilePositions
+        console.log(tempPositions)
+
 
         for (let i = tempPositions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * i)
@@ -119,7 +126,11 @@ class Board extends React.Component {
             tempPositions[j].tileLoc = temp
             tempPositions[i].type = "regular";
             tempPositions[j].type = "regular";
+
         }
+        // if (tempPositions.currentPosition === this.state.tilePositions.winPositions) {
+        //     this.runRandom()
+        // }
 
         let bpos = this.findMe(0, tempPositions);
         tempPositions[bpos].type = "blank";
@@ -129,16 +140,33 @@ class Board extends React.Component {
         })
     }
 
-    async checkWin() {
+    checkWin(e) {
+        let tempPositions = this.state.tilePositions
+        
         let tally = 0
         for (let i = 0; i < this.state.tilePositions.length; i++) {
-            if (this.state.tilePositions[i].currentPosition === this.state.tilePositions[i].winPosition) {
+
+            let winTileRow = parseInt((tempPositions[i].winPosition) / 4)
+            let winTileCol = (tempPositions[i].winPosition) % 4
+            let currTileRow = tempPositions[i].tileLoc[0]
+            let currTileCol = tempPositions[i].tileLoc[1]
+
+            if (winTileRow === currTileRow && winTileCol === currTileCol) {
                 tally = tally + 1
             }
         }
-         if (tally === 16) {
-            await alert("winner")
+
+        if (tally === 16 && e) {
+            alert("Nice job!")
         }
+    }
+
+    setImage(e) {
+        let input = e.target.files[0]
+
+        this.setState({
+            imgURL: URL.createObjectURL(input)
+        })
     }
 
     render() {
@@ -146,26 +174,35 @@ class Board extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-md-4 offset-4 col-sm-12">
-                        <Upload />
+                        <Upload
+                            setImg={this.setImage}
+                        />
                     </div>
                 </div>
                 <div className="row mt-5">
                     <div className="col-md-6 offset-3 col-6">
-                        <div id="grid" className="row border border-secondary" style={{width:400}}>
+                        <div id="grid" className="row border border-secondary" style={{ width: 400 }}>
                             {this.state.tilePositions.map((item, index) => (
                                 <Tile
                                     key={index}
                                     tempObj={item}
                                     showMove={this.showMove}
                                     id={index}
+                                    checkWin={this.checkWin}
+                                    img={this.state.imgURL}
                                 />
                             ))}
                         </div>
                     </div>
                 </div>
-                <Buttons
-                    randomize={this.randomizeBoard}
-                />
+                <div className="row">
+                    <div className="col-md-4 offset-4 col-sm-12 text-center">
+                        <Buttons
+                            randomize={this.randomizeBoard}
+                        />
+                    </div>
+                </div>
+
             </div>
         )
     }

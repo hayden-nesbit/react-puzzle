@@ -22,6 +22,7 @@ class Tile extends React.Component {
     switchTile(e) {
         e.preventDefault();
         this.props.showMove(this.state.position)
+        this.props.checkWin(e)
     }
 
     render() {
@@ -29,11 +30,10 @@ class Tile extends React.Component {
         let location = this.props.tempObj.tileLoc
         let top = location[0] * -100
         let left = location[1] * -100
-        console.log({top, left})
 
         return (
             <div onClick={this.switchTile} id={this.props.tempObj.type} className="col-md-3 col-3 border p-0 bg-secondary" style={{height:100, width:100, overflow:"hidden"}}>
-                <img style={{top:top, left:left}} src={process.env.PUBLIC_URL + 'logo.svg'} />
+                <img style={{top:top, left:left}} src={process.env.PUBLIC_URL + this.props.img} />
             </div>
         )
     }
