@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import Board from './Board'
-import Image from './Image'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

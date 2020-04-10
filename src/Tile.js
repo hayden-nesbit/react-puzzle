@@ -1,7 +1,5 @@
 import React from 'react'
 import './Tile.css'
-import logo from './logo.svg'
-
 class Tile extends React.Component {
     constructor(props) {
         super(props)
@@ -34,8 +32,8 @@ class Tile extends React.Component {
         console.log({top, left})
 
         return (
-            <div onClick={this.switchTile} className="col-md-3 col-3 border p-0 bg-secondary" style={{height:100, width:100, overflow:"hidden"}}>
-                <img style={{top:top, left:left}} id={this.props.tempObj.type} src={logo} />
+            <div onClick={this.switchTile} id={this.props.tempObj.type} className="col-md-3 col-3 border p-0 bg-secondary" style={{height:100, width:100, overflow:"hidden"}}>
+                <img style={{top:top, left:left}} src={process.env.PUBLIC_URL + 'logo.svg'} />
             </div>
         )
     }

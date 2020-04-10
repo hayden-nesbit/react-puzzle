@@ -109,7 +109,9 @@ class Board extends React.Component {
     }
 
     randomizeBoard() {
+       
         let tempPositions = this.state.tilePositions
+
         for (let i = tempPositions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * i)
             const temp = tempPositions[i].tileLoc
@@ -118,6 +120,7 @@ class Board extends React.Component {
             tempPositions[i].type = "regular";
             tempPositions[j].type = "regular";
         }
+
         let bpos = this.findMe(0, tempPositions);
         tempPositions[bpos].type = "blank";
 
@@ -148,7 +151,7 @@ class Board extends React.Component {
                 </div>
                 <div className="row mt-5">
                     <div className="col-md-6 offset-3 col-6">
-                        <div id="grid" className="row" style={{width:400}}>
+                        <div id="grid" className="row border border-secondary" style={{width:400}}>
                             {this.state.tilePositions.map((item, index) => (
                                 <Tile
                                     key={index}
